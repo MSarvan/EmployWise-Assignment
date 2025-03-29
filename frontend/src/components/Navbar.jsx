@@ -10,10 +10,11 @@ const Navbar = () => {
         <img src={logo} alt="logo" />
       </div>
       <div className="user-info">
+        <button className="add-user-button">Add User</button>
         <div className="logged-user-avatar">
           <img src={avatar} alt="logged user avatar" />
         </div>
-        <div className="small-text">Signout</div>
+        <button className="signout-button">Signout</button>
       </div>
     </div>
   );
