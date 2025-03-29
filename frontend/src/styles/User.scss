@@ -39,16 +39,23 @@
         }
       }
 
-      .update-button {
-        width: fit-content;
-        padding: 0.5rem 2rem;
+      .user-buttons {
         display: flex;
-        align-self: center;
-        margin-top: 1rem;
-        border-radius: 0.5rem;
-        border: none;
-        background: burlywood;
-        cursor: pointer;
+        gap: 1rem;
+        flex-direction: row;
+        justify-content: center;
+
+        .update-button {
+          width: fit-content;
+          padding: 0.5rem 2rem;
+          display: flex;
+          align-self: center;
+          margin-top: 1rem;
+          border-radius: 0.5rem;
+          border: none;
+          background: burlywood;
+          cursor: pointer;
+        }
       }
     }
   }

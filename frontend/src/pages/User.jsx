@@ -1,8 +1,11 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import "../styles/User.scss";
+import { useNavigate } from "react-router-dom";
 
 const User = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="userpage">
       <Navbar />
@@ -39,7 +42,12 @@ const User = () => {
               // value={password}
             />
           </div>
-          <button className="update-button">Update details</button>
+          <div className="user-buttons">
+            <button className="update-button">Update details</button>
+            <button className="update-button" onClick={() => navigate("/home")}>
+              Back to Home
+            </button>
+          </div>
         </form>
       </div>
     </div>
