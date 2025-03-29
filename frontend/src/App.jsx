@@ -1,12 +1,14 @@
-import "./App.css";
+import "./App.scss";
 import AllRoutes from "./AllRoutes";
 import { BrowserRouter } from "react-router";
 
 function App() {
   return (
-    <BrowserRouter>
-      <AllRoutes />
-    </BrowserRouter>
+    <div className="app">
+      <BrowserRouter>
+        <AllRoutes />
+      </BrowserRouter>
+    </div>
   );
 }
 
