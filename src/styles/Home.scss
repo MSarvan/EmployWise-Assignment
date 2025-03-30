@@ -66,4 +66,44 @@
       }
     }
   }
+
+  @media (max-width: 1200px) {
+    .home-container {
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .search-bar-container {
+      padding: 0 2rem;
+    }
+
+    .home-container {
+      padding: 0 2rem;
+    }
+
+    .pagination-container {
+      padding: 0 2rem;
+    }
+  }
+
+  @media (max-width: 425px) {
+    .pagination-container {
+      justify-content: space-between;
+    }
+  }
+
+  @media (max-width: 325px) {
+    .search-bar-container {
+      padding: 0 1rem;
+    }
+
+    .home-container {
+      padding: 0 1rem;
+    }
+
+    .pagination-container {
+      padding: 0 1rem;
+    }
+  }
 }

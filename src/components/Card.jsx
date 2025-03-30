@@ -10,20 +10,22 @@ const Card = ({ data, setDelClicked, setSelectedUser }) => {
       <div className="user-avatar">
         <img src={data?.avatar} alt="avatar1" />
       </div>
-      <div className="user-name">
-        <div>{data?.first_name}</div>
-        <div>{data?.last_name}</div>
-      </div>
-      <div className="options">
-        <button onClick={() => navigate(`/user/${data?.id}`)}>Edit</button>
-        <button
-          onClick={() => {
-            setSelectedUser(data?.id);
-            setDelClicked(true);
-          }}
-        >
-          Delete
-        </button>
+      <div className="wrapper">
+        <div className="user-name">
+          <div>{data?.first_name}</div>
+          <div>{data?.last_name}</div>
+        </div>
+        <div className="options">
+          <button onClick={() => navigate(`/user/${data?.id}`)}>Edit</button>
+          <button
+            onClick={() => {
+              setSelectedUser(data?.id);
+              setDelClicked(true);
+            }}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   );

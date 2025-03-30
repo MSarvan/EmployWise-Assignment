@@ -142,7 +142,7 @@ const Home = () => {
         )}
       </div>
 
-      {!searchTerm || !loadingUsers && (
+      {(!searchTerm && !loadingUsers) && (
         <div className="pagination-container">
           <button
             onClick={() => handlePageChange(page - 1)}

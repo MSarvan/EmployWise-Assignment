@@ -46,4 +46,22 @@
       cursor: pointer;
     }
   }
+
+  @media (max-width: 576px) {
+    padding: 0 2rem;
+  }
+
+  @media (max-width: 325px) {
+    padding: 0 1rem;
+
+    .emp-logo {
+      width: 100px;
+    }
+
+    .user-info {
+      .signout-button {
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
 }
