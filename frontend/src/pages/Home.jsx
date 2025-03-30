@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../styles/Home.scss";
@@ -7,16 +7,16 @@ import Modal from "../components/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GlobalContext } from "../context/GlobalContext";
+import LoadingCard from "../components/LoadingCard";
 
 const Home = () => {
-  const { loginData } = useContext(GlobalContext);
   const [delClicked, setDelClicked] = useState(false);
   const [usersData, setUsersData] = useState([]);
   const [allUsersData, setAllUsersData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedUser, setSelectedUser] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [loadingUsers, setLoadingUsers] = useState(true);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -33,6 +33,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchAllUsers = async () => {
+      setLoadingUsers(true);
       try {
         let allUsers = [];
         let currentPage = 1;
@@ -50,8 +51,10 @@ const Home = () => {
         }
 
         setAllUsersData(allUsers);
+        setLoadingUsers(false);
       } catch (err) {
         console.error("Error fetching all users:", err);
+        setLoadingUsers(false);
       }
     };
 
@@ -59,15 +62,18 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    setLoadingUsers(true);
     axios
       .get(`https://reqres.in/api/users?page=${page}`)
       .then((res) => {
         let data = res?.data;
         setUsersData(data?.data);
         setTotalPages(data?.total_pages);
+        setLoadingUsers(false);
       })
       .catch((err) => {
         console.log(err, "Error in fetching user details.");
+        setLoadingUsers(false);
       });
   }, [page]);
 
@@ -84,7 +90,7 @@ const Home = () => {
       .then((res) => {
         if (res.status === 204) {
           setDelClicked(false);
-          toast.success("User Deleted Successfully!");
+          toast.success("User deleted successfully!");
           setUsersData(usersData.filter((user) => user.id !== data));
         }
       })
@@ -117,7 +123,9 @@ const Home = () => {
       </div>
 
       <div className="home-container">
-        {filteredUsers.length > 0 ? (
+        {loadingUsers ? (
+          [...Array(6)].map((_, i) => <LoadingCard key={i} />)
+        ) : filteredUsers.length > 0 ? (
           filteredUsers.map((e, i) => (
             <Card
               key={i}
@@ -134,7 +142,7 @@ const Home = () => {
         )}
       </div>
 
-      {!searchTerm && (
+      {!searchTerm || !loadingUsers && (
         <div className="pagination-container">
           <button
             onClick={() => handlePageChange(page - 1)}
