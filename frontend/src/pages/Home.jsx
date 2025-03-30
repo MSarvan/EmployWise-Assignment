@@ -11,13 +11,42 @@ import "react-toastify/dist/ReactToastify.css";
 const Home = () => {
   const [delClicked, setDelClicked] = useState(false);
   const [usersData, setUsersData] = useState([]);
+  const [allUsersData, setAllUsersData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedUser, setSelectedUser] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const page = Number(searchParams.get("page")) || 1;
+
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      try {
+        let allUsers = [];
+        let currentPage = 1;
+        let total_pages = 1;
+
+        while (currentPage <= total_pages) {
+          const res = await axios.get(
+            `https://reqres.in/api/users?page=${currentPage}`
+          );
+          if (res?.data?.data) {
+            allUsers = [...allUsers, ...res.data.data];
+            total_pages = res.data.total_pages;
+          }
+          currentPage++;
+        }
+
+        setAllUsersData(allUsers);
+      } catch (err) {
+        console.error("Error fetching all users:", err);
+      }
+    };
+
+    fetchAllUsers();
+  }, []);
 
   useEffect(() => {
     axios
@@ -55,43 +84,65 @@ const Home = () => {
       });
   };
 
+  const filteredUsers = searchTerm
+    ? allUsersData.filter((user) =>
+        `${user.first_name} ${user.last_name}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      )
+    : usersData;
+
   return (
     <div className="homepage">
       <Navbar />
+
       <div className="search-bar-container">
         <input
           type="text"
           className="search-bar"
-          placeholder="Search for User.."
+          placeholder="Search user.."
+          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm}
         />
       </div>
+
       <div className="home-container">
-        {usersData?.map((e, i) => (
-          <Card
-            key={i}
-            data={e}
-            setDelClicked={setDelClicked}
-            setSelectedUser={setSelectedUser}
-          />
-        ))}
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((e, i) => (
+            <Card
+              key={i}
+              data={e}
+              setDelClicked={setDelClicked}
+              setSelectedUser={setSelectedUser}
+            />
+          ))
+        ) : (
+          <p className="no-users">
+            No users found with the search query, please try again with a
+            different query.
+          </p>
+        )}
       </div>
-      <div className="pagination-container">
-        <button
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1}
-        >
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page === totalPages}
-        >
-          Next
-        </button>
-      </div>
+
+      {!searchTerm && (
+        <div className="pagination-container">
+          <button
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+          >
+            Previous
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
 
       {delClicked && (
         <Modal
