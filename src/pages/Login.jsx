@@ -23,7 +23,10 @@ const Login = () => {
     };
 
     try {
-      const res = await axios.post("https://reqres.in/api/login", obj);
+      const res = await axios.post("https://reqres.in/api/login", obj, {
+        headers: { "Content-Type": "application/json" },
+        mode: "cors",
+      });
       const data = res.data;
       setLoginData(data);
       localStorage.setItem("token", data.token);
