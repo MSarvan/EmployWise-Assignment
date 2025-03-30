@@ -1,13 +1,35 @@
 import React, { useContext } from "react";
 import "../styles/Login.scss";
 import logo from "../assets/logo.jpg";
-import { GlobalContex } from "../context/GlobalContext";
+import { GlobalContext } from "../context/GlobalContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { email, setEmail, password, setPassword, loginData, setLoginData } =
-    useContext(GlobalContex);
+    useContext(GlobalContext);
 
-  const handleLogin = () => {};
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    const obj = {
+      email,
+      password,
+    };
+
+    try {
+      const res = await axios.post("https://reqres.in/api/login", obj);
+      const data = res.data;
+      console.log(data, "data");
+
+      setLoginData(data);
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+    }
+  };
 
   return (
     <div className="login-container">

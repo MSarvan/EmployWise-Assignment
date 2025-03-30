@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Route, Routes, Navigate } from "react-router";
 import Login from "./pages/Login";
-import { GlobalContex } from "./context/GlobalContext";
+import { GlobalContext } from "./context/GlobalContext";
 import Home from "./pages/Home";
 import User from "./pages/User";
 
 const AllRoutes = () => {
-  const { loginData } = useContext(GlobalContex);
+  const { loginData } = useContext(GlobalContext);
   return (
     <Routes>
       <Route path="/login" element={<Login />} />

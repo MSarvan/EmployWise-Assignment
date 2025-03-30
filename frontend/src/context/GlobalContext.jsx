@@ -1,11 +1,16 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 
-export const GlobalContex = createContext();
+export const GlobalContext = createContext();
 
-export const GlobalContexProvider = ({ children }) => {
+export const GlobalContextProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginData, setLoginData] = useState(null);
+
+  const logout = () => {
+    localStorage.clear();
+    setLoginData(null);
+  };
 
   const value = {
     email,
@@ -14,9 +19,10 @@ export const GlobalContexProvider = ({ children }) => {
     setPassword,
     loginData,
     setLoginData,
+    logout,
   };
 
   return (
-    <GlobalContex.Provider value={value}>{children}</GlobalContex.Provider>
+    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
   );
 };
