@@ -31,4 +31,11 @@
       }
     }
   }
+
+  @media (max-width: 501px) {
+    .modal {
+      max-width: 75%;
+      text-align: center;
+    }
+  }
 }
