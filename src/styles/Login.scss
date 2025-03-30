@@ -58,4 +58,21 @@
       }
     }
   }
+
+  @media (max-width: 600px) {
+    .login-logo {
+      width: 30%;
+    }
+
+    .login-form {
+      width: 75%;
+      max-width: 75%;
+    }
+  }
+
+  @media (max-width: 375px) {
+    .login-logo {
+      width: 35%;
+    }
+  }
 }
