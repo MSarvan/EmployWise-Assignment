@@ -15,6 +15,14 @@ const User = () => {
   const [editedEmail, setEditedEmail] = useState("");
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     if (id) {
       axios
         .get(`https://reqres.in/api/users/${id}`)
@@ -39,8 +47,6 @@ const User = () => {
 
   const handleUpdateUser = (e) => {
     e.preventDefault();
-
-    console.log(isEdited, 'isEdited');
 
     if (!isEdited) return;
 

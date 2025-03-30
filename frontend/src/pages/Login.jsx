@@ -1,17 +1,21 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import "../styles/Login.scss";
 import logo from "../assets/logo.jpg";
 import { GlobalContext } from "../context/GlobalContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { email, setEmail, password, setPassword, loginData, setLoginData } =
+  const { email, setEmail, password, setPassword, setLoginData } =
     useContext(GlobalContext);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const obj = {
       email,
@@ -21,13 +25,16 @@ const Login = () => {
     try {
       const res = await axios.post("https://reqres.in/api/login", obj);
       const data = res.data;
-      console.log(data, "data");
-
       setLoginData(data);
       localStorage.setItem("token", data.token);
       navigate("/home");
+      setEmail("");
+      setPassword("");
+      setLoading(false);
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
+      toast.error(`Login failed: ${error.response?.data?.error}`);
+      setLoading(false);
     }
   };
 
@@ -67,9 +74,9 @@ const Login = () => {
           <button
             type="submit"
             className="login-button"
-            disabled={!email || !password}
+            disabled={!email || !password || loading}
           >
-            Login
+            {loading ? "Logging you in.." : "Login"}
           </button>
         </form>
       </div>

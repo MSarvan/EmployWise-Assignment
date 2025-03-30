@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../styles/Home.scss";
@@ -7,8 +7,10 @@ import Modal from "../components/Modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GlobalContext } from "../context/GlobalContext";
 
 const Home = () => {
+  const { loginData } = useContext(GlobalContext);
   const [delClicked, setDelClicked] = useState(false);
   const [usersData, setUsersData] = useState([]);
   const [allUsersData, setAllUsersData] = useState([]);
@@ -20,6 +22,14 @@ const Home = () => {
   const navigate = useNavigate();
 
   const page = Number(searchParams.get("page")) || 1;
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const fetchAllUsers = async () => {
