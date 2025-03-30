@@ -20,7 +20,6 @@ const Navbar = () => {
         <img src={logo} alt="logo" onClick={() => navigate("/home")} />
       </div>
       <div className="user-info">
-        {/* <button className="add-user-button">Add User</button> */}
         <div className="logged-user-avatar">
           <img src={avatar} alt="logged user avatar" />
         </div>

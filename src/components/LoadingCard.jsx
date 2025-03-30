@@ -9,17 +9,19 @@ const LoadingCard = () => {
       <div className="user-avatar">
         <Skeleton width={100} height={100} />
       </div>
-      <div className="user-name">
-        <div>
-          <Skeleton width={100} height={15} />
+      <div className="wrapper">
+        <div className="user-name">
+          <div>
+            <Skeleton width={100} height={15} />
+          </div>
+          <div>
+            <Skeleton width={100} height={15} />
+          </div>
         </div>
-        <div>
-          <Skeleton width={100} height={15} />
+        <div className="options">
+          <Skeleton width={100} height={25} />
+          <Skeleton width={100} height={25} />
         </div>
-      </div>
-      <div className="options">
-        <Skeleton width={100} height={25} />
-        <Skeleton width={100} height={25} />
       </div>
     </div>
   );
