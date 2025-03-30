@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/Card.scss";
 import { useNavigate } from "react-router-dom";
 
-const Card = ({ data, setDelClicked }) => {
+const Card = ({ data, setDelClicked, setSelectedUser }) => {
   const navigate = useNavigate();
 
   return (
@@ -16,7 +16,14 @@ const Card = ({ data, setDelClicked }) => {
       </div>
       <div className="options">
         <button onClick={() => navigate(`/user/${data?.id}`)}>Edit</button>
-        <button onClick={() => setDelClicked(true)}>Delete</button>
+        <button
+          onClick={() => {
+            setSelectedUser(data?.id);
+            setDelClicked(true);
+          }}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );
